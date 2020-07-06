@@ -1,9 +1,9 @@
-from typing import Union
+import os
 import random
 import string
+from typing import Union
 from sqlalchemy.orm import Session
-import sys
-from . import models, schemas
+from . import models
 
 POSSIBLE_CHARS = string.ascii_letters + string.digits
 
@@ -28,5 +28,7 @@ def create_short_link(db: Session, url: str) -> str:
     db.commit()
     db.refresh(db_link)
 
-    # TODO add variable instead of "localhost:8000/"
-    return "localhost:8000/" + short_link
+    host_name = os.getenv("HOST_NAME")
+    if host_name is None:
+        host_name = "localhost:8000/"
+    return host_name + short_link
