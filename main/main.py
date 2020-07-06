@@ -2,6 +2,10 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from main.views import router
 from api.views import api_router
+from .database import SessionLocal, engine
+from . import models
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
