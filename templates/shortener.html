@@ -1,0 +1,34 @@
+{% extends "main.html" %}
+
+
+{% block shortener %}
+    <script>
+        $(document).ready(function() {
+            $("#shortify").click(function() {
+                console.log("CLICKED");
+                let url = $("#url").val();
+
+                $.ajax({
+                    url: '/shortify',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({'url': url}),
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        $("#short_link").val(data['short_link'])
+                                        .removeAttr("hidden");
+                    }
+                });
+            });
+        })
+    </script>
+
+    <label for="url"></label>
+    <input id="url" type="text" placeholder="Input URL you want to shortify">
+
+    <button id="shortify">Shortify</button>
+
+    <input id="short_link" type="text" value="" hidden>
+
+{% endblock %}
