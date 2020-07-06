@@ -16,7 +16,8 @@ def get_original_url(db: Session, short_link: str) -> Union[str, None]:
 
 def create_short_link(db: Session, url: str) -> str:
     """Create and return short link for a given full url"""
-    if db_link := db.query(models.Link).filter(models.Link.url == url).first():
+    db_link = db.query(models.Link).filter(models.Link.url == url).first()
+    if db_link:
         return db_link.link
 
     short_link = "".join(random.choices(POSSIBLE_CHARS, k=5))
