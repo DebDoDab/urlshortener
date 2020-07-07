@@ -4,6 +4,7 @@
 {% block shortener %}
     <script>
         $(document).ready(function() {
+            console.log("ASD");
             $("#shortify").click(function() {
                 let url = $("#url").val();
 
@@ -16,17 +17,31 @@
                     success: function (data) {
                         $("#short_link").val(data['short_link'])
                                         .removeAttr("hidden");
+                        $("#short_link_label").removeAttr("hidden");
                     }
                 });
             });
-        })
+
+            $("#short_link").click(function() {
+                let copyText = document.getElementById("short_link");
+
+                copyText.select();
+
+                console.log(copyText);
+
+                document.execCommand("copy");
+            });
+        });
     </script>
 
-    <label for="url"></label>
-    <input id="url" type="text" placeholder="Input URL you want to shortify">
+    <div class="jumbotron m-12">
+        <label for="url"></label>
+        <input id="url" type="text" placeholder="Input URL you want to shortify" class="form-control my-5">
 
-    <button id="shortify">Shortify</button>
+        <button id="shortify" class="btn btn-primary btn-lg btn-block mb-5">Shortify</button>
 
-    <input id="short_link" type="text" value="" hidden>
+        <h1 id="short_link_label" hidden>Click to Copy</h1>
+        <input id="short_link" class="btn btn-secondary btn-lg btn-block" type="text" value="" hidden data-toggle="tooltip" data-placement="bottom" title="Click to Copy">
+    </div>
 
 {% endblock %}

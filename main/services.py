@@ -16,9 +16,13 @@ def get_original_url(db: Session, short_link: str) -> Union[str, None]:
 
 def create_short_link(db: Session, url: str) -> str:
     """Create and return short link for a given full url"""
+    host_name = os.getenv("HOST_NAME")
+    if host_name is None:
+        host_name = "localhost:8000/"
+
     db_link = db.query(models.Link).filter(models.Link.url == url).first()
     if db_link:
-        return db_link.link
+        return host_name + db_link.link
 
     short_link = "".join(random.choices(POSSIBLE_CHARS, k=5))
     while get_original_url(db, short_link):
@@ -29,7 +33,4 @@ def create_short_link(db: Session, url: str) -> str:
     db.commit()
     db.refresh(db_link)
 
-    host_name = os.getenv("HOST_NAME")
-    if host_name is None:
-        host_name = "localhost:8000/"
     return host_name + short_link
