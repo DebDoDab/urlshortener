@@ -17,13 +17,13 @@
 * Go into that directory
   * `cd urlshortener`
 * Create and open file `.env` with any text editor and add HOST_NAME value
-  * `echo HOST_NAME="https://vadi.tel/" > .env` (instead of `vadi.tel` use your own host name)
+  * `echo HOST_NAME="https://vadi.tel/" > .env` (instead of `https://vadi.tel` use your own host name like `localhost:8000/`)
 * Make virtual environment
   * `python3 -m venv venv`
   * `source venv/bin/activate`
 * Install requirements
   * `pip3 install -r requirements.txt`
-* Run your local server with a shell script
+* Test your local server with a shell script
   * `sh start.sh`
 
 
