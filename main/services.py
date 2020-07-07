@@ -1,8 +1,8 @@
-import os
+from decouple import config
 import random
+from sqlalchemy.orm import Session
 import string
 from typing import Union
-from sqlalchemy.orm import Session
 from . import models
 
 POSSIBLE_CHARS = string.ascii_letters + string.digits
@@ -16,7 +16,7 @@ def get_original_url(db: Session, short_link: str) -> Union[str, None]:
 
 def create_short_link(db: Session, url: str) -> str:
     """Create and return short link for a given full url"""
-    host_name = os.getenv("HOST_NAME")
+    host_name = config("HOST_NAME")
     if host_name is None:
         host_name = "localhost:8000/"
 
