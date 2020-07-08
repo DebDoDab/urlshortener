@@ -1,11 +1,23 @@
-from sqlalchemy import Column, Integer, String
-from .database import Base
+from typing import Optional
+from .database import BaseMongoCRUD
+from bson import ObjectId
 
 
-class Link(Base):
-    """Model for storing link between short link and full url"""
-    __tablename__ = "links"
+class Link(BaseMongoCRUD):
+    collection = "List"
 
-    id = Column(Integer, primary_key=True, index=True)
-    url = Column(String, unique=True)
-    link = Column(String, unique=True)
+    @classmethod
+    async def create(cls, url: str, link: str) -> ObjectId:
+        return (await super().insert_one(await cls.to_dict(url, link))).inserted_id
+
+    @classmethod
+    async def find_by_link(cls, link: str) -> Optional[dict]:
+        return await super().find_one({"link": link})
+
+    @classmethod
+    async def find_by_url(cls, url: str) -> Optional[dict]:
+        return await super().find_one({"url": url})
+
+    @classmethod
+    async def to_dict(cls, url: str, link: str) -> dict:
+        return {"url": url, "link": link}

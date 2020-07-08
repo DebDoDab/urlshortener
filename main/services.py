@@ -1,6 +1,5 @@
 from decouple import config
 import random
-from sqlalchemy.orm import Session
 import string
 from typing import Union
 from . import models
@@ -16,27 +15,24 @@ async def get_host_name():
     return host_name
 
 
-async def get_original_url(db: Session, short_link: str) -> Union[str, None]:
+async def get_original_url(short_link: str) -> Union[str, None]:
     """Return a full url for a given short link or return None if it doesn't exists"""
-    resp = db.query(models.Link).filter(models.Link.link == short_link).first()
-    return resp.url if resp else None
+    resp = await models.Link.find_by_link(short_link)
+    return resp['url'] if resp else None
 
 
-async def create_short_link(db: Session, url: str) -> str:
+async def create_short_link(url: str) -> str:
     """Create and return short link for a given full url"""
     host_name = await get_host_name()
 
-    db_link = db.query(models.Link).filter(models.Link.url == url).first()
+    db_link = await models.Link.find_by_url(url)
     if db_link:
-        return host_name + db_link.link
+        return host_name + db_link['link']
 
     short_link = "".join(random.choices(POSSIBLE_CHARS, k=5))
-    while get_original_url(db, short_link):
+    while await get_original_url(short_link):
         short_link = "".join(random.choices(POSSIBLE_CHARS, k=5))
 
-    db_link = models.Link(link=short_link, url=url)
-    db.add(db_link)
-    db.commit()
-    db.refresh(db_link)
+    await models.Link.create(url, short_link)
 
     return host_name + short_link

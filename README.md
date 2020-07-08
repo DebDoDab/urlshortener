@@ -28,9 +28,7 @@
 
 
 ## Plans
-* Write a good UI
-* Make code asynchronous 
-* Fix installation guide
+* Write a better UI
 * Make a dockerfile
 * Add REDIS instead of sqlite3
   * Make CRON to automatically delete old links

@@ -1,9 +1,7 @@
-from fastapi import APIRouter, Request, Body, Depends
+from fastapi import APIRouter, Request, Body
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from main.services import get_original_url, create_short_link, get_host_name
-from sqlalchemy.orm import Session
-from .database import get_db
 from . import schemas
 
 router = APIRouter()
@@ -22,14 +20,14 @@ async def main(request: Request):
 
 
 @router.post("/shortify")
-async def shortify(url: schemas.Url = Body(...), db: Session = Depends(get_db)):
+async def shortify(url: schemas.Url = Body(...)):
     """Create short link for a given url"""
-    short_link = await create_short_link(db, url.url)
+    short_link = await create_short_link(url.url)
     return {"short_link": short_link}
 
 
 @router.get('/{short_link}')
-async def redirect_to_original_url(short_link: str, db: Session = Depends(get_db)):
+async def redirect_to_original_url(short_link: str):
     """Redirect to original url using short link"""
-    original_url = await get_original_url(db, short_link)
+    original_url = await get_original_url(short_link)
     return RedirectResponse(original_url)
