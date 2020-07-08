@@ -4,8 +4,16 @@
 {% block shortener %}
     <script>
         $(document).ready(function() {
-            console.log("ASD");
-            $("#shortify").click(function() {
+            function copy_text() {
+                let copyText = document.getElementById("short_link");
+
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+
+                document.execCommand("copy");
+            }
+
+            function shortify() {
                 let url = $("#url").val();
 
                 $.ajax({
@@ -18,19 +26,20 @@
                         $("#short_link").val(data['short_link'])
                                         .removeAttr("hidden");
                         $("#short_link_label").removeAttr("hidden");
+                        copy_text();
                     }
                 });
+            }
+
+            $("#url").keyup(function(event) {
+                if (event.keyCode === 13) {
+                    $("#shortify").click();
+                }
             });
 
-            $("#short_link").click(function() {
-                let copyText = document.getElementById("short_link");
+            $("#shortify").click(shortify);
 
-                copyText.select();
-
-                console.log(copyText);
-
-                document.execCommand("copy");
-            });
+            $("#short_link").click(copy_text);
         });
     </script>
 
