@@ -15,21 +15,40 @@
   * run `git clone https://github.com/DebDoDab/urlshortener.git` 
   * or `git@github.com:DebDoDab/urlshortener.git`
 * Go into that directory
-  * `cd urlshortener`
-* Create and open file `.env` with any text editor and add HOST_NAME value
-  * `echo HOST_NAME="https://vadi.tel/" > .env` (instead of `https://vadi.tel/` use your own host name like `localhost:8000/`)
+  ```
+  cd urlshortener
+  ```
 * Make virtual environment
-  * `python3 -m venv venv`
-  * `source venv/bin/activate`
+  ```
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
 * Install requirements
-  * `pip3 install -r requirements.txt`
+  ```
+  pip3 install -r requirements.txt
+  ```
+* Install mongodb and run mongodb server
+  ```
+  sudo apt install mongodb
+  sudo systemctl start mongodb
+  ``` 
+* Create and open file `.env` with any text editor and add HOST_NAME, MONGO_HOST, MONGO_PORT, MONGO_DATABASE_NAME values
+  ```
+    echo "HOST_NAME=http://localhost:8000/
+    MONGO_HOST=mongodb://localhost
+    MONGO_PORT=27017
+    MONGO_DATABASE_NAME=url_shortener" > .env
+  ```
 * Test your local server with a shell script
-  * `sh start.sh`
+  ```
+  sh start.sh
+  ```
 
 
 ## Plans
+* Try to get host name not from `.env` file
 * Write a better UI
 * Make a dockerfile
-* Add REDIS instead of sqlite3
+* Add REDIS instead of Mongo
   * Make CRON to automatically delete old links
-  * But keep them in DB(Postgres, SQLite3, Mongo)
+  * But keep them in MongoDB
