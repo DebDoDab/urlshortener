@@ -9,7 +9,8 @@
 #### Copy your shortified link and enjoy  
 
 
-## Installation and running
+## Outdated ~~Installation and running~~
+
 
 * Download this project
   * run `git clone https://github.com/DebDoDab/urlshortener.git` 
@@ -32,7 +33,8 @@
   sudo apt install mongodb
   sudo systemctl start mongodb
   ``` 
-* Create and open file `.env` with any text editor and add HOST_NAME, MONGO_HOST, MONGO_PORT, MONGO_DATABASE_NAME values
+* Create and open file `.env` with any text editor and 
+add HOST_NAME, MONGO_HOST, MONGO_PORT, MONGO_DATABASE_NAME values
   ```
     echo "HOST_NAME=http://localhost:8000/
     MONGO_HOST=mongodb://localhost

@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Request, Body
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-from main.services import get_original_url, create_short_link, get_host_name
+from app.main.services import get_original_url, create_short_link, get_host_name
 from . import schemas
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 @router.get('/')

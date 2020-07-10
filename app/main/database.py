@@ -1,13 +1,13 @@
 from abc import ABC
 from bson import ObjectId
-from decouple import config
 from fastapi import HTTPException
 from http import HTTPStatus
 from motor import motor_asyncio
+import os
 
 
-client = motor_asyncio.AsyncIOMotorClient(config("MONGO_HOST"), int(config("MONGO_PORT")))
-mongo_db = client[config("MONGO_DATABASE_NAME")]
+client = motor_asyncio.AsyncIOMotorClient(os.getenv("MONGO_HOST"), int(os.getenv("MONGO_PORT")))
+mongo_db = client[os.getenv("MONGO_DATABASE_NAME")]
 
 __all__ = ["BaseMongoCRUD", "ObjectId"]
 

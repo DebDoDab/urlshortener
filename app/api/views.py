@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from main.services import create_short_link, get_original_url
+from app.main.services import create_short_link, get_original_url
 
 api_router = APIRouter()
 
