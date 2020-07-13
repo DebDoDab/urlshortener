@@ -13,6 +13,7 @@ __all__ = ["BaseMongoCRUD", "ObjectId"]
 
 
 class BaseMongoCRUD(ABC):
+    """Base class for models to have all CRUD operations"""
     db = mongo_db
     collection = NotImplemented
 
