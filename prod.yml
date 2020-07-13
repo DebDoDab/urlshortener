@@ -14,7 +14,7 @@ services:
     volumes:
       - ./app:/usr/src/app
     ports:
-      - 80:8000
+      - 8000:8000
   mongodb:
     image: mongo:3.6.18
     environment:
