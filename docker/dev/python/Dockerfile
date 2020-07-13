@@ -1,5 +1,5 @@
 FROM python:3.8.3
-MAINTAINER deb1337@gmail.com
+MAINTAINER debbius3@gmail.com
 
 WORKDIR /usr/shr/app
 
