@@ -4,6 +4,7 @@ from bson import ObjectId
 
 
 class Link(BaseMongoCRUD):
+    """Model for link-url relation"""
     collection = "List"
 
     @classmethod

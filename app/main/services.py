@@ -1,4 +1,4 @@
-from decouple import config
+import os
 import random
 import string
 from typing import Union
@@ -9,8 +9,7 @@ POSSIBLE_CHARS = string.ascii_letters + string.digits
 
 async def get_host_name():
     """Read HOST_NAME variable from .env file or make it default"""
-    host_name = config("HOST_NAME")
-    if host_name is None:
+    if (host_name := os.getenv("HOST_NAME")) is None:
         host_name = "localhost:8000/"
     return host_name
 
@@ -25,10 +24,10 @@ async def create_short_link(url: str) -> str:
     """Create and return short link for a given full url"""
     host_name = await get_host_name()
 
-    db_link = await models.Link.find_by_url(url)
-    if db_link:
+    if db_link := await models.Link.find_by_url(url):
         return host_name + db_link['link']
 
+    # Generate new 5-symbol short link until it's unique
     short_link = "".join(random.choices(POSSIBLE_CHARS, k=5))
     while await get_original_url(short_link):
         short_link = "".join(random.choices(POSSIBLE_CHARS, k=5))
